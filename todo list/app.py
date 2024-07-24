@@ -2,13 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# Sample todo list data
-todo_list = [
-    {'id': 1, 'task': 'Learn Flask', 'completed': False, 'important': False},
-    {'id': 2, 'task': 'Build a todo app', 'completed': True, 'important': False},
-    {'id': 3, 'task': 'Deploy app to Heroku', 'completed': False, 'important': True}
-]
-next_id = 4  # To generate new IDs for new tasks
+# Initialize an empty todo list
+todo_list = []
+next_id = 1  # Initialize ID counter
 
 
 @app.route('/')
@@ -20,7 +16,8 @@ def index():
 def add_task():
     global next_id
     task_content = request.form['content']
-    new_task = {'id': next_id, 'task': task_content, 'completed': False}
+    deadline = request.form['deadline'] if 'deadline' in request.form else None
+    new_task = {'id': next_id, 'task': task_content, 'completed': False, 'important': False, 'deadline': deadline}
     todo_list.append(new_task)
     next_id += 1
     return redirect(url_for('index'))
@@ -39,6 +36,15 @@ def complete_task(task_id):
 def delete_task(task_id):
     global todo_list
     todo_list = [task for task in todo_list if task['id'] != task_id]
+    return redirect(url_for('index'))
+
+
+@app.route('/mark_important/<int:task_id>')
+def mark_important(task_id):
+    for task in todo_list:
+        if task['id'] == task_id:
+            task['important'] = True
+            break
     return redirect(url_for('index'))
 
 

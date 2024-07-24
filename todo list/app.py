@@ -4,9 +4,9 @@ app = Flask(__name__)
 
 # Sample todo list data
 todo_list = [
-    {'id': 1, 'task': 'Learn Flask', 'completed': False},
-    {'id': 2, 'task': 'Build a todo app', 'completed': True},
-    {'id': 3, 'task': 'Deploy app to Heroku', 'completed': False}
+    {'id': 1, 'task': 'Learn Flask', 'completed': False, 'important': False},
+    {'id': 2, 'task': 'Build a todo app', 'completed': True, 'important': False},
+    {'id': 3, 'task': 'Deploy app to Heroku', 'completed': False, 'important': True}
 ]
 next_id = 4  # To generate new IDs for new tasks
 
